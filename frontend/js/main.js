@@ -461,3 +461,129 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    loadWorkers();
+
+    document.getElementById('applyWorkerFilters').addEventListener('click', loadWorkers);
+    document.getElementById('searchWorkers').addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') loadWorkers();
+    });
+    document.getElementById('sortWorkers').addEventListener('change', loadWorkers);
+
+    async function loadWorkers() {
+        const search = document.getElementById('searchWorkers').value;
+        const location = document.getElementById('filterWorkerLocation').value;
+        const skill = document.getElementById('filterWorkerSkill').value;
+
+        try {
+            const params = new URLSearchParams();
+            if (search) params.append('search', search);
+            if (location) params.append('location', location);
+            if (skill) params.append('skills', skill);
+            params.append('userType', 'worker');
+
+            const response = await fetch(
+                `http://localhost:3000/api/users?${params.toString()}`
+            );
+            const data = await response.json();
+
+            if (data.success) {
+                displayWorkers(data.users);
+                document.getElementById('workersCount').textContent =
+                    `${data.count} Workers Found`;
+            }
+        } catch (error) {
+            console.error('Error loading workers:', error);
+            displayDemoWorkers();
+        }
+    }
+
+    function displayWorkers(workers) {
+        const container = document.getElementById('workersList');
+
+        if (!workers || workers.length === 0) {
+            container.innerHTML =
+                '<div class="no-results"><p>No workers found. Try different filters.</p></div>';
+            return;
+        }
+
+        container.innerHTML = workers.map(worker => `
+    <div class="worker-card" data-id="${worker.id}">
+        <div class="worker-header">
+            <div class="worker-avatar">
+                <img src="${worker.profileImage || 'assets/default-avatar.jpg'}" alt="${worker.name}">
+                    <span class="verified-badge" style="display:${worker.isVerified?.phone ? 'block' : 'none'}">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+            </div>
+            <div class="worker-info">
+                <h3>${worker.name}</h3>
+                <div class="worker-rating">
+                    <span class="stars">
+                        ${'★'.repeat(Math.floor(worker.rating))}
+                        ${'☆'.repeat(5 - Math.floor(worker.rating))}
+                    </span>
+                    <span>${worker.rating.toFixed(1)} (${worker.totalReviews || 0})</span>
+                </div>
+                <div class="worker-location">
+                    <i class="fas fa-map-marker-alt"></i> ${worker.location}
+                </div>
+            </div>
+        </div>
+
+        <div class="worker-skills">
+            ${(worker.skills || []).slice(0, 3)
+                .map(skill => `<span class="skill-tag">${skill}</span>`)
+                .join('')}
+        </div>
+
+        <div class="worker-actions">
+            <button class="btn btn-outline btn-sm view-profile" data-id="${worker.id}">
+                View Profile
+            </button>
+            <button class="btn btn-primary btn-sm hire-worker" data-id="${worker.id}">
+                Contact
+            </button>
+        </div>
+    </div>
+    `).join('');
+
+        document.querySelectorAll('.view-profile').forEach(btn => {
+            btn.addEventListener('click', () => viewWorkerProfile(btn.dataset.id));
+        });
+
+        document.querySelectorAll('.hire-worker').forEach(btn => {
+            btn.addEventListener('click', () => contactWorker(btn.dataset.id));
+        });
+    }
+
+    function displayDemoWorkers() {
+        const demoWorkers = [
+            {
+                id: 1,
+                name: 'John Kamau',
+                location: 'Nairobi',
+                rating: 4.7,
+                totalReviews: 23,
+                skills: ['plumbing', 'repairs'],
+                experience: 5,
+                availabilityType: 'full-time',
+                isVerified: { phone: true }
+            }
+        ];
+
+        displayWorkers(demoWorkers);
+        document.getElementById('workersCount').textContent =
+            `${demoWorkers.length} Workers Found`;
+    }
+
+    function viewWorkerProfile(workerId) {
+        alert(`Viewing profile of worker ID: ${workerId}`);
+    }
+
+    function contactWorker(workerId) {
+        alert(`Contacting worker ID: ${workerId}`);
+    }
+});

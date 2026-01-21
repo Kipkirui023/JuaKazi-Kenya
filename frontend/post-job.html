@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job - JuaKazi Kenya</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-hands-helping"></i>
+                <span>JuaKazi</span>Kenya
+            </a>
+
+            <div class="nav-menu">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="jobs.html"><i class="fas fa-briefcase"></i> Jobs</a>
+                <a href="workers.html"><i class="fas fa-users"></i> Workers</a>
+                <a href="post-job.html" class="active"><i class="fas fa-plus-circle"></i> Post Job</a>
+
+                <div class="auth-buttons">
+                    <button id="loginBtn" class="btn btn-outline">Login</button>
+                    <button id="registerBtn" class="btn btn-primary">Sign Up</button>
+                </div>
+
+                <div class="user-menu" style="display: none;">
+                    <img id="userAvatar" src="assets/default-avatar.jpg" alt="User">
+                    <span id="userName"></span>
+                    <div class="dropdown">
+                        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="my-jobs.html"><i class="fas fa-tasks"></i> My Jobs</a>
+                        <a href="messages.html"><i class="fas fa-envelope"></i> Messages</a>
+                        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Post Job Form -->
+    <section class="section post-job-section">
+        <div class="container">
+            <div class="form-container">
+                <h1 class="form-title">Post a Job Opportunity</h1>
+                <p class="form-subtitle">Find the right worker for your job. Post your requirements and connect with
+                    skilled workers in your area.</p>
+
+                <form id="postJobForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title *</label>
+                            <input type="text" id="jobTitle" placeholder="e.g., Plumber Needed, House Cleaning"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jobCategory">Job Category *</label>
+                            <select id="jobCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="construction">Construction</option>
+                                <option value="plumbing">Plumbing</option>
+                                <option value="electrical">Electrical</option>
+                                <option value="cleaning">Cleaning</option>
+                                <option value="delivery">Delivery</option>
+                                <option value="domestic">Domestic Work</option>
+                                <option value="farming">Farming</option>
+                                <option value="security">Security</option>
+                                <option value="driving">Driving</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobType">Job Type *</label>
+                            <select id="jobType" required>
+                                <option value="">Select Type</option>
+                                <option value="full-time">Full Time</option>
+                                <option value="part-time">Part Time</option>
+                                <option value="casual">Casual/Daily</option>
+                                <option value="contract">Contract</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jobSalary">Salary (KES) *</label>
+                            <input type="number" id="jobSalary" placeholder="e.g., 2500" min="0" required>
+                            <div class="salary-period">
+                                <label class="radio-label">
+                                    <input type="radio" name="salaryPeriod" value="hour" checked> Per Hour
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="salaryPeriod" value="day"> Per Day
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="salaryPeriod" value="week"> Per Week
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="salaryPeriod" value="month"> Per Month
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="salaryPeriod" value="project"> Per Project
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobCounty">County *</label>
+                            <select id="jobCounty" required>
+                                <option value="">Select County</option>
+                                <option value="Nairobi">Nairobi</option>
+                                <option value="Mombasa">Mombasa</option>
+                                <option value="Kisumu">Kisumu</option>
+                                <option value="Nakuru">Nakuru</option>
+                                <option value="Eldoret">Eldoret</option>
+                                <option value="Thika">Thika</option>
+                                <option value="Malindi">Malindi</option>
+                                <option value="Kitale">Kitale</option>
+                                <option value="Garissa">Garissa</option>
+                                <option value="Kakamega">Kakamega</option>
+                                <!-- Add more counties as needed -->
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jobLocation">Specific Location/Town</label>
+                            <input type="text" id="jobLocation" placeholder="e.g., Westlands, Nyali, Town Centre">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jobDescription">Job Description *</label>
+                        <textarea id="jobDescription" rows="5"
+                            placeholder="Describe the job in detail. Include requirements, responsibilities, and any special instructions..."
+                            required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jobSkills">Required Skills (comma separated)</label>
+                        <input type="text" id="jobSkills" placeholder="e.g., plumbing, pipe fitting, repairs">
+                        <small class="form-hint">Separate multiple skills with commas</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactName">Your Name *</label>
+                            <input type="text" id="contactName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactPhone">Contact Phone *</label>
+                            <input type="tel" id="contactPhone" placeholder="07XX XXX XXX" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactWhatsApp">WhatsApp Number (Optional)</label>
+                        <input type="tel" id="contactWhatsApp" placeholder="07XX XXX XXX">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="urgentJob">
+                            <span>Mark as Urgent</span>
+                        </label>
+                        <small class="form-hint">Urgent jobs will be highlighted and get more visibility</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="termsAgree" required>
+                            <span>I agree to the <a href="terms.html">Terms of Service</a> and confirm that this job
+                                posting is legitimate</span>
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-paper-plane"></i> Post Job
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="window.location.href='index.html'">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+
+                <div class="post-job-info">
+                    <h3><i class="fas fa-lightbulb"></i> Tips for a Great Job Post</h3>
+                    <ul>
+                        <li>Be specific about the job requirements</li>
+                        <li>Include expected duration and working hours</li>
+                        <li>Mention if tools/equipment will be provided</li>
+                        <li>Provide clear contact information</li>
+                        <li>Set a fair and competitive salary</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>JuaKazi Kenya</h3>
+                    <p>Connecting informal workers with employers across all 47 counties in Kenya.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <a href="faq.html">FAQ</a>
+                    <a href="help.html">Help Center</a>
+                    <a href="safety.html">Safety Tips</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-phone"></i> +254 700 123 456</p>
+                    <p><i class="fas fa-envelope"></i> info@juakazi.co.ke</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 JuaKazi Kenya. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Job Posted Successfully!</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <p>Your job has been posted successfully! Workers in your area will now be able to see it and apply.</p>
+                <p><strong>Job ID:</strong> <span id="postedJobId">12345</span></p>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="window.location.href='jobs.html'">
+                        View All Jobs
+                    </button>
+                    <button class="btn btn-outline" onclick="window.location.href='post-job.html'">
+                        Post Another Job
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Post Job Form Handler
+        document.getElementById('postJobForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Get form values
+            const jobData = {
+                title: document.getElementById('jobTitle').value,
+                description: document.getElementById('jobDescription').value,
+                type: document.getElementById('jobType').value,
+                category: document.getElementById('jobCategory').value,
+                location: {
+                    county: document.getElementById('jobCounty').value,
+                    town: document.getElementById('jobLocation').value || ''
+                },
+                salary: {
+                    amount: parseInt(document.getElementById('jobSalary').value),
+                    period: document.querySelector('input[name="salaryPeriod"]:checked').value,
+                    currency: 'KES'
+                },
+                skills: document.getElementById('jobSkills').value
+                    ? document.getElementById('jobSkills').value.split(',').map(s => s.trim())
+                    : [],
+                employer: document.getElementById('contactName').value,
+                contactPhone: document.getElementById('contactPhone').value,
+                contactWhatsApp: document.getElementById('contactWhatsApp').value || '',
+                urgent: document.getElementById('urgentJob').checked
+            };
+
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
+            submitBtn.disabled = true;
+
+            try {
+                // Send to backend API
+                const response = await fetch('http://localhost:3000/api/jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jobData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Show success modal
+                    document.getElementById('postedJobId').textContent = result.job?.id || '12345';
+                    document.getElementById('successModal').style.display = 'flex';
+
+                    // Reset form
+                    document.getElementById('postJobForm').reset();
+                } else {
+                    alert(result.message || 'Failed to post job. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error posting job:', error);
+                alert('Network error. Please check your connection and try again.');
+
+                // Demo mode - show success anyway for testing
+                document.getElementById('postedJobId').textContent = 'DEMO-' + Date.now();
+                document.getElementById('successModal').style.display = 'flex';
+                document.getElementById('postJobForm').reset();
+            } finally {
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Close modal handler
+        document.querySelector('.close-modal')?.addEventListener('click', function () {
+            document.getElementById('successModal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('successModal')?.addEventListener('click', function (e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+
+        // Auto-format phone numbers
+        document.getElementById('contactPhone').addEventListener('input', function (e) {
+            this.value = this.value.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+        });
+
+        document.getElementById('contactWhatsApp').addEventListener('input', function (e) {
+            this.value = this.value.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+        });
+    </script>
+</body>
+
+</html>

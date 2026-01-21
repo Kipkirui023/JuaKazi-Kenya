@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Workers - JuaKazi Kenya</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-hands-helping"></i>
+                <span>JuaKazi</span>Kenya
+            </a>
+
+            <div class="nav-menu">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="jobs.html"><i class="fas fa-briefcase"></i> Jobs</a>
+                <a href="workers.html" class="active"><i class="fas fa-users"></i> Workers</a>
+                <a href="post-job.html"><i class="fas fa-plus-circle"></i> Post Job</a>
+
+                <div class="auth-buttons">
+                    <button id="loginBtn" class="btn btn-outline">Login</button>
+                    <button id="registerBtn" class="btn btn-primary">Sign Up</button>
+                </div>
+
+                <div class="user-menu" style="display: none;">
+                    <img id="userAvatar" src="assets/default-avatar.jpg" alt="User">
+                    <span id="userName"></span>
+                    <div class="dropdown">
+                        <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                        <a href="my-jobs.html"><i class="fas fa-tasks"></i> My Jobs</a>
+                        <a href="messages.html"><i class="fas fa-envelope"></i> Messages</a>
+                        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Workers Search Section -->
+    <section class="section workers-search-section">
+        <div class="container">
+            <h1 class="page-title">Find Skilled Workers</h1>
+            <p class="page-subtitle">Browse through verified workers with various skills across Kenya</p>
+
+            <div class="search-filters">
+                <div class="search-box">
+                    <div class="search-input">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchWorkers" placeholder="Search workers by name or skill">
+                    </div>
+                    <div class="search-input">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <select id="filterWorkerLocation">
+                            <option value="">All Locations</option>
+                            <option value="Nairobi">Nairobi</option>
+                            <option value="Mombasa">Mombasa</option>
+                            <option value="Kisumu">Kisumu</option>
+                            <option value="Nakuru">Nakuru</option>
+                        </select>
+                    </div>
+                    <div class="search-input">
+                        <i class="fas fa-tools"></i>
+                        <select id="filterWorkerSkill">
+                            <option value="">All Skills</option>
+                            <option value="plumbing">Plumbing</option>
+                            <option value="electrical">Electrical</option>
+                            <option value="cleaning">Cleaning</option>
+                            <option value="construction">Construction</option>
+                            <option value="delivery">Delivery</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="applyWorkerFilters">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workers Listing -->
+    <section class="section workers-listing-section">
+        <div class="container">
+            <div class="listing-header">
+                <h2 id="workersCount">Loading workers...</h2>
+                <div class="sort-options">
+                    <label>Sort by:</label>
+                    <select id="sortWorkers">
+                        <option value="rating">Highest Rating</option>
+                        <option value="experience">Most Experienced</option>
+                        <option value="newest">Newest</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="workers-grid" id="workersList">
+                <!-- Workers will be loaded here -->
+                <div class="loading-workers">
+                    <i class="fas fa-spinner fa-spin"></i> Loading workers...
+                </div>
+            </div>
+
+            <div class="pagination" id="workersPagination">
+                <!-- Pagination will be added here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>JuaKazi Kenya</h3>
+                    <p>Connecting informal workers with employers across all 47 counties in Kenya.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <a href="faq.html">FAQ</a>
+                    <a href="help.html">Help Center</a>
+                    <a href="safety.html">Safety Tips</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-phone"></i> +254 700 123 456</p>
+                    <p><i class="fas fa-envelope"></i> info@juakazi.co.ke</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 JuaKazi Kenya. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Worker Profile Modal -->
+    <div id="workerProfileModal" class="modal">
+        <div class="modal-content worker-profile-modal">
+            <!-- Worker profile will be loaded here -->
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+
+</body>
+
+</html>
