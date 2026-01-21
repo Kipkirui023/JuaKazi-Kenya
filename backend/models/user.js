@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
@@ -182,6 +183,4 @@ userSchema.index({ userType: 1 });
 userSchema.index({ rating: -1 });
 userSchema.index({ createdAt: -1 });
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+module.exports = mongoose.models.User || mongoose.model('User', userSchema);
