@@ -131,7 +131,7 @@ exports.createJob = async (req, res) => {
         let employerNameToUse = employerName || 'Demo Employer';
 
         try {
-            const User = require('../models/User');
+            const User = require('../models/user');
 
             let employer = await User.findOne({ phone: '254700000000' });
 

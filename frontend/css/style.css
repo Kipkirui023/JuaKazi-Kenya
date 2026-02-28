@@ -662,9 +662,6 @@ p {
     }
 }
 
-# Add to existing css/style.css or create new styles # Let's add to the existing file
-$additionalCSS =@"
-
 
 /* Post Job Page Styles */
 .post-job-section {

@@ -9,6 +9,42 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <style>
+        .login-required {
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .login-required-icon {
+            font-size: 4rem;
+            color: #2E8B57;
+            margin-bottom: 1rem;
+        }
+
+        .login-required h2 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .login-required p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .auth-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -32,7 +68,7 @@
                 </div>
 
                 <div class="user-menu" style="display: none;">
-                    <img id="userAvatar" src="assets/default-avatar.png" alt="User">
+                    <img id="userAvatar" src="assets/default-avatar.jpg" alt="User">
                     <span id="userName"></span>
                     <div class="dropdown">
                         <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
@@ -49,10 +85,63 @@
         </div>
     </nav>
 
-    <!-- Post Job Form -->
-    <section class="section post-job-section">
+    <!-- Login Required Message (Shows when not logged in) -->
+    <section class="section login-required" id="loginRequiredSection">
+        <div class="container">
+            <div class="login-required-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2>Login Required to Post Jobs</h2>
+            <p>To post a job on JuaKazi Kenya, you need to have an employer account. This helps us maintain a trusted
+                community and ensures better communication between employers and workers.</p>
+
+            <div class="benefits">
+                <h3>Benefits of Registering:</h3>
+                <ul style="text-align: left; max-width: 400px; margin: 0 auto 2rem;">
+                    <li>✅ Manage all your job postings in one place</li>
+                    <li>✅ Receive applications directly from workers</li>
+                    <li>✅ Rate and review workers after job completion</li>
+                    <li>✅ Build your employer reputation</li>
+                    <li>✅ Get SMS notifications for applications</li>
+                </ul>
+            </div>
+
+            <div class="auth-options">
+                <button class="btn btn-primary" onclick="showRegisterModal('employer')">
+                    <i class="fas fa-user-plus"></i> Register as Employer
+                </button>
+                <button class="btn btn-outline" onclick="showLoginModal()">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button class="btn btn-outline" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Back to Home
+                </button>
+            </div>
+
+            <p style="margin-top: 2rem; font-size: 0.9rem;">
+                Already have an account? <a href="#" onclick="showLoginModal()"
+                    style="color: #2E8B57; text-decoration: underline;">Login here</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Post Job Form (Hidden when not logged in) -->
+    <section class="section post-job-section hidden" id="postJobSection">
         <div class="container">
             <div class="form-container">
+                <div class="user-info-bar">
+                    <div class="user-info">
+                        <img id="postJobUserAvatar" src="assets/default-avatar.jpg" alt="User">
+                        <div>
+                            <h4 id="postJobUserName">Loading...</h4>
+                            <small id="postJobUserType">Employer</small>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline btn-sm" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+
                 <h1 class="form-title">Post a Job Opportunity</h1>
                 <p class="form-subtitle">Find the right worker for your job. Post your requirements and connect with
                     skilled workers in your area.</p>
@@ -133,7 +222,6 @@
                                 <option value="Kitale">Kitale</option>
                                 <option value="Garissa">Garissa</option>
                                 <option value="Kakamega">Kakamega</option>
-                                <!-- Add more counties as needed -->
                             </select>
                         </div>
 
@@ -158,19 +246,14 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="contactName">Your Name *</label>
-                            <input type="text" id="contactName" required>
-                        </div>
-
-                        <div class="form-group">
                             <label for="contactPhone">Contact Phone *</label>
                             <input type="tel" id="contactPhone" placeholder="07XX XXX XXX" required>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="contactWhatsApp">WhatsApp Number (Optional)</label>
-                        <input type="tel" id="contactWhatsApp" placeholder="07XX XXX XXX">
+                        <div class="form-group">
+                            <label for="contactWhatsApp">WhatsApp Number (Optional)</label>
+                            <input type="tel" id="contactWhatsApp" placeholder="07XX XXX XXX">
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -277,9 +360,488 @@
         </div>
     </div>
 
-    <script src="js/main.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/jobs.js"></script>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Login to JuaKazi</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginPhone">Phone Number</label>
+                    <input type="tel" id="loginPhone" placeholder="07XX XXX XXX" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="button" class="btn btn-outline" onclick="showRegisterModal()">
+                        Create Account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Join JuaKazi Kenya</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>I want to:</label>
+                    <div class="radio-group" style="display: flex; gap: 2rem;">
+                        <label class="radio-label">
+                            <input type="radio" name="userType" value="worker" checked>
+                            <div class="radio-option">
+                                <i class="fas fa-tools"></i>
+                                <span>Find Work</span>
+                                <small>As a skilled worker</small>
+                            </div>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="userType" value="employer">
+                            <div class="radio-option">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Hire Workers</span>
+                                <small>As an employer</small>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="regName">Full Name *</label>
+                    <input type="text" id="regName" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="regPhone">Phone Number *</label>
+                    <input type="tel" id="regPhone" placeholder="07XX XXX XXX" required>
+                    <small class="form-hint">We'll send verification code to this number</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="regLocation">Location (County) *</label>
+                    <select id="regLocation" required>
+                        <option value="">Select your county</option>
+                        <option value="Nairobi">Nairobi</option>
+                        <option value="Mombasa">Mombasa</option>
+                        <option value="Kisumu">Kisumu</option>
+                        <option value="Nakuru">Nakuru</option>
+                        <option value="Eldoret">Eldoret</option>
+                        <option value="Thika">Thika</option>
+                        <option value="Malindi">Malindi</option>
+                        <option value="Kitale">Kitale</option>
+                        <option value="Garissa">Garissa</option>
+                        <option value="Kakamega">Kakamega</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="skillsField" style="display: none;">
+                    <label for="regSkills">Your Skills (for workers)</label>
+                    <input type="text" id="regSkills" placeholder="e.g., plumbing, electrical, cleaning">
+                    <small class="form-hint">Separate skills with commas</small>
+                </div>
+
+                <div class="form-group" id="companyField" style="display: none;">
+                    <label for="regCompany">Company Name (for employers)</label>
+                    <input type="text" id="regCompany" placeholder="Optional">
+                </div>
+
+                <div class="form-group">
+                    <label for="regPassword">Password *</label>
+                    <input type="password" id="regPassword" placeholder="Create a strong password" required>
+                    <small class="form-hint">At least 6 characters</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="regTerms" required>
+                        <span>I agree to the <a href="terms.html">Terms of Service</a> and <a
+                                href="privacy.html">Privacy Policy</a></span>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            checkAuthAndRedirect();
+            setupEventListeners();
+        });
+
+        function checkAuthAndRedirect() {
+            const token = localStorage.getItem('juakazi_token');
+            const user = JSON.parse(localStorage.getItem('juakazi_user') || '{}');
+
+            if (token && user.id && user.userType === 'employer') {
+                // User is logged in as employer - show job posting form
+                document.getElementById('loginRequiredSection').classList.add('hidden');
+                document.getElementById('postJobSection').classList.remove('hidden');
+
+                // Update user info
+                document.getElementById('postJobUserName').textContent = user.name || 'Employer';
+                document.getElementById('postJobUserType').textContent = `${user.userType} • ${user.location?.county || user.location || ''}`;
+
+                // Auto-fill contact info
+                if (user.phone && !document.getElementById('contactPhone').value) {
+                    document.getElementById('contactPhone').value = user.phone;
+                }
+            } else if (token && user.id && user.userType !== 'employer') {
+                // User is logged in but not as employer
+                document.getElementById('loginRequiredSection').innerHTML = `
+                    <div class="container">
+                        <div class="login-required-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h2>Employer Account Required</h2>
+                        <p>You are logged in as a <strong>${user.userType}</strong>. To post jobs, you need an employer account.</p>
+                        
+                        <div class="auth-options">
+                            <button class="btn btn-primary" onclick="logoutAndRegisterAsEmployer()">
+                                <i class="fas fa-user-plus"></i> Register as Employer
+                            </button>
+                            <button class="btn btn-outline" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                            <button class="btn btn-outline" onclick="window.location.href='jobs.html'">
+                                <i class="fas fa-briefcase"></i> Browse Jobs
+                            </button>
+                        </div>
+                    </div>
+                \`;
+            } else {
+                // User is not logged in - show login required message
+                document.getElementById('loginRequiredSection').classList.remove('hidden');
+                document.getElementById('postJobSection').classList.add('hidden');
+            }
+            
+            // Update navigation auth UI
+            updateNavAuthUI();
+        }
+        
+        function updateNavAuthUI() {
+            const token = localStorage.getItem('juakazi_token');
+            const user = JSON.parse(localStorage.getItem('juakazi_user') || '{}');
+            
+            const authButtons = document.querySelector('.auth-buttons');
+            const userMenu = document.querySelector('.user-menu');
+            
+            if (token && user.id) {
+                // User is logged in
+                if (authButtons) authButtons.style.display = 'none';
+                if (userMenu) {
+                    userMenu.style.display = 'flex';
+                    document.getElementById('userName').textContent = user.name || user.phone || 'User';
+                }
+            } else {
+                // User is not logged in
+                if (authButtons) authButtons.style.display = 'flex';
+                if (userMenu) userMenu.style.display = 'none';
+            }
+        }
+        
+        function setupEventListeners() {
+            // Login form
+            document.getElementById('loginForm')?.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await handleLogin();
+            });
+            
+            // Register form
+            document.getElementById('registerForm')?.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await handleRegister();
+            });
+            
+            // Job posting form
+            document.getElementById('postJobForm')?.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await handleJobPosting();
+            });
+            
+            // Close modal buttons
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+            
+            // Close modals when clicking outside
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                    }
+                });
+            });
+            
+            // User type toggle in registration
+            document.querySelectorAll('input[name="userType"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const skillsField = document.getElementById('skillsField');
+                    const companyField = document.getElementById('companyField');
+                    
+                    if (this.value === 'worker') {
+                        skillsField.style.display = 'block';
+                        companyField.style.display = 'none';
+                    } else {
+                        skillsField.style.display = 'none';
+                        companyField.style.display = 'block';
+                    }
+                });
+            });
+            
+            // Logout button
+            document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            // Navigation login/register buttons
+            document.getElementById('loginBtn')?.addEventListener('click', showLoginModal);
+            document.getElementById('registerBtn')?.addEventListener('click', showRegisterModal);
+        }
+        
+        // Show login modal
+        function showLoginModal() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+        
+        // Show register modal
+        function showRegisterModal(userType = 'employer') {
+            const modal = document.getElementById('registerModal');
+            if (userType) {
+                document.querySelector(\`input[name="userType"][value="\${userType}"]\`).checked = true;
+                document.querySelector('input[name="userType"]').dispatchEvent(new Event('change'));
+            }
+            modal.style.display = 'flex';
+        }
+        
+        // Handle login
+        async function handleLogin() {
+            const phone = document.getElementById('loginPhone').value.replace(/\D/g, '');
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!phone || !password) {
+                alert('Please enter phone and password');
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Save to localStorage
+                    localStorage.setItem('juakazi_token', data.token);
+                    localStorage.setItem('juakazi_user', JSON.stringify(data.user));
+                    
+                    // Close modal
+                    document.getElementById('loginModal').style.display = 'none';
+                    
+                    // Reload page to show appropriate content
+                    checkAuthAndRedirect();
+                    
+                    // Show success message
+                    alert(\`Welcome back, \${data.user.name}!\`);
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Network error. Please try again.');
+            }
+        }
+        
+        // Handle registration
+        async function handleRegister() {
+            const userType = document.querySelector('input[name="userType"]:checked').value;
+            const name = document.getElementById('regName').value;
+            const phone = document.getElementById('regPhone').value.replace(/\D/g, '');
+            const location = document.getElementById('regLocation').value;
+            const skills = userType === 'worker' ? document.getElementById('regSkills').value : undefined;
+            const companyName = userType === 'employer' ? document.getElementById('regCompany').value : undefined;
+            const password = document.getElementById('regPassword').value;
+            
+            if (!name || !phone || !location || !password) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters');
+                return;
+            }
+            
+            const userData = {
+                name,
+                phone,
+                userType,
+                location,
+                password
+            };
+            
+            if (skills) userData.skills = skills;
+            if (companyName) userData.companyName = companyName;
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Save to localStorage
+                    localStorage.setItem('juakazi_token', data.token);
+                    localStorage.setItem('juakazi_user', JSON.stringify(data.user));
+                    
+                    // Close modal
+                    document.getElementById('registerModal').style.display = 'none';
+                    
+                    // Reload page to show appropriate content
+                    checkAuthAndRedirect();
+                    
+                    // Show success message
+                    alert(\`Registration successful! Welcome to JuaKazi, \${data.user.name}.\`);
+                    
+                    // If employer registered, show job posting form
+                    if (userType === 'employer') {
+                        document.getElementById('loginRequiredSection').classList.add('hidden');
+                        document.getElementById('postJobSection').classList.remove('hidden');
+                    }
+                } else {
+                    alert(data.message || 'Registration failed');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Network error. Please try again.');
+            }
+        }
+        
+        // Handle job posting
+        async function handleJobPosting() {
+            const token = localStorage.getItem('juakazi_token');
+            const user = JSON.parse(localStorage.getItem('juakazi_user') || '{}');
+            
+            if (!token || !user.id || user.userType !== 'employer') {
+                alert('You must be logged in as an employer to post jobs');
+                showLoginModal();
+                return;
+            }
+            
+            // Get form values
+            const jobData = {
+                title: document.getElementById('jobTitle').value,
+                description: document.getElementById('jobDescription').value,
+                type: document.getElementById('jobType').value,
+                category: document.getElementById('jobCategory').value,
+                location: {
+                    county: document.getElementById('jobCounty').value,
+                    town: document.getElementById('jobLocation').value || ''
+                },
+                salary: {
+                    amount: parseInt(document.getElementById('jobSalary').value),
+                    period: document.querySelector('input[name="salaryPeriod"]:checked').value,
+                    currency: 'KES',
+                    isNegotiable: false
+                },
+                skills: document.getElementById('jobSkills').value 
+                    ? document.getElementById('jobSkills').value.split(',').map(s => s.trim())
+                    : [],
+                contactPhone: document.getElementById('contactPhone').value,
+                contactWhatsApp: document.getElementById('contactWhatsApp').value || '',
+                isUrgent: document.getElementById('urgentJob').checked
+            };
+            
+            // Show loading state
+            const submitBtn = document.querySelector('#postJobForm button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Send to backend API with authentication
+                const response = await fetch('http://localhost:3000/api/jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': \`Bearer ${token}\`
+                    },
+                    body: JSON.stringify(jobData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Show success modal
+                    document.getElementById('postedJobId').textContent = result.job?.id || '12345';
+                    document.getElementById('successModal').style.display = 'flex';
+                    
+                    // Reset form
+                    document.getElementById('postJobForm').reset();
+                } else {
+                    if (response.status === 401) {
+                        // Token expired or invalid
+                        localStorage.removeItem('juakazi_token');
+                        localStorage.removeItem('juakazi_user');
+                        alert('Your session has expired. Please login again.');
+                        checkAuthAndRedirect();
+                    } else {
+                        alert(result.message || 'Failed to post job. Please try again.');
+                    }
+                }
+            } catch (error) {
+                console.error('Error posting job:', error);
+                alert('Network error. Please check your connection and try again.');
+            } finally {
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('juakazi_token');
+            localStorage.removeItem('juakazi_user');
+            window.location.href = 'post-job.html';
+        }
+        
+        function logoutAndRegisterAsEmployer() {
+            localStorage.removeItem('juakazi_token');
+            localStorage.removeItem('juakazi_user');
+            showRegisterModal('employer');
+        }
+        
+        // Auto-format phone numbers
+        document.addEventListener('input', function(e) {
+            if (e.target.type === 'tel') {
+                e.target.value = e.target.value.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3,4})/, '$1 $2 $3');
+            }
+        });
+    </script>
 </body>
 
 </html>
